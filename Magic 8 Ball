@@ -1,0 +1,55 @@
+//
+//  ViewController.swift
+//  Magic 8 Ball
+//
+//  Created by Shaoying Ying on 9/21/17.
+//  Copyright © 2017 Shaoying Ying. All rights reserved.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    var randomBallNumber : Int = 0
+    
+    let ballArray = ["ball1","ball2","ball3","ball4","ball5"]
+    
+    
+    
+    @IBOutlet weak var ballImageView1: UIImageView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateBallImage()
+        
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func updateBallImage(){
+    
+    randomBallNumber = Int(arc4random_uniform(5))
+    ballImageView1.image = UIImage (named: ballArray[randomBallNumber])
+        
+    }
+    
+    @IBAction func askButtonPressed(_ sender: AnyObject) {
+        
+        updateBallImage()
+        
+    }
+
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        
+        updateBallImage()
+        
+    }
+
+}
+
