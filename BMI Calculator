@@ -1,0 +1,32 @@
+//Challenge - Calculate your BMI
+
+import UIKit
+
+func bmiCaculator (weight : float_t, height : float_t) -> String {
+    let BMI = weight / pow(height,2)
+    
+    //get 2 decimals of BMI
+    let shortenedBMI = String(format: "%.2f", BMI)
+    
+    //remove the duplicated "Your BMI is "
+    var interpretation = ""
+    
+    if BMI > 25 {
+        interpretation = "you are overweight"
+    }
+        
+    else if BMI > 18.5 && BMI <= 25 {
+        interpretation = "you are of normal weight"
+        
+    }
+    
+    else {
+        interpretation = "you are underweight"
+    }
+    
+    return "Your BMI is \(shortenedBMI) and \(interpretation)"
+}
+
+
+print(bmiCaculator (weight : 52, height : 1.65))
+
