@@ -1,107 +1,93 @@
 //
 //  ViewController.swift
-//  Quizzler
-//
-//  Created by Angela Yu on 25/08/2015.
-//  Copyright (c) 2015 London App Brewery. All rights reserved.
+//  Destini
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-    
-    //Place your instance variables here
-    
-    let allQuestions = QuestionBank()
-    var pickedAnswer : Bool = false
-    var questionNumber : Int = 0
-    var score : Int = 0
+
+    // Our strings
+    let story1 = "Your car has blown a tire on a winding road in the middle of nowhere with no cell phone reception. You decide to hitchhike. A rusty pickup truck rumbles to a stop next to you. A man with a wide brimmed hat with soulless eyes opens the passenger door for you and asks: \"Need a ride, boy?\"."
+    let answer1a = "I\'ll hop in. Thanks for the help!"
+    let answer1b = "Better ask him if he\'s a murderer first."
     
     
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet var progressBar: UIView!
-    @IBOutlet weak var progressLabel: UILabel!
+    let story2 = "He nods slowly, unphased by the question."
+    let answer2a = "At least he\'s honest. I\'ll climb in."
+    let answer2b = "Wait, I know how to change a tire."
+    
+    let story3 = "As you begin to drive, the stranger starts talking about his relationship with his mother. He gets angrier and angrier by the minute. He asks you to open the glovebox. Inside you find a bloody knife, two severed fingers, and a cassette tape of Elton John. He reaches for the glove box."
+    let answer3a = "I love Elton John! Hand him the cassette tape."
+    let answer3b = "It\'s him or me! You take the knife and stab him."
+    
+    let story4 = "What? Such a cop out! Did you know traffic accidents are the second leading cause of accidental death for most adult age groups?"
+    let story5 = "As you smash through the guardrail and careen towards the jagged rocks below you reflect on the dubious wisdom of stabbing someone while they are driving a car you are in."
+    let story6 = "You bond with the murderer while crooning verses of \"Can you feel the love tonight\". He drops you off at the next town. Before you go he asks you if you know any good places to dump bodies. You reply: \"Try the pier.\""
+    
+    
+    // UI Elements linked to the storyboard
+    @IBOutlet weak var topButton: UIButton!         // Has TAG = 1
+    @IBOutlet weak var bottomButton: UIButton!      // Has TAG = 2
+    @IBOutlet weak var storyTextView: UILabel!
+    
+    // TODO Step 5: Initialise instance variables here
+    
+    var storyIndex = 1 //orginial answer is var storyIndex : Int = 1
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let firstQuestion = allQuestions.list[0]
-        //questionLabel.text = firstQuestion.questionText
-        nextQuestion()//simplify the process
+        
+        // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
+        
+        storyTextView.text = story1 //correct
+        
+        topButton.setTitle(answer1a, for: .normal) //topButton.setTitle(answer1a, for: UIControlState.normal)
+        bottomButton.setTitle(answer1b, for: .normal) //bottomButton.setTitle(answer1b, for: UIControlState.normal)
         
     }
 
+    
+    // User presses one of the buttons
+    @IBAction func buttonPressed(_ sender: UIButton) {
+    
+        // TODO Step 4: Write an IF-Statement to update the views
+//        if sender.tag == 1 {
+//            storyTextView.text = story3
+//            topButton.setTitle(answer3a, for: .normal)
+//            bottomButton.setTitle(answer3b, for: .normal)
+//            storyIndex = 3
+//        }
+//        else if sender.tag == 2 {
+//            storyTextView.text = story2
+//            topButton.setTitle(answer2a, for: .normal)
+//            bottomButton.setTitle(answer2b, for: .normal)
+//            storyIndex = 2
+//        }
+        
+        // TODO Step 6: Modify the IF-Statement to complete the story
+        //stuck on step 6 before
+        if sender.tag == 1 && storyIndex == 1 {
+            storyTextView.text = story3
+            topButton.setTitle(answer3a, for: .normal)
+            bottomButton.setTitle(answer3b, for: .normal)
+            storyIndex = 3
+        }
+        else if sender.tag == 2 && storyIndex == 1 {
+            storyTextView.text = story2
+            topButton.setTitle(answer2a, for: .normal)
+            bottomButton.setTitle(answer2b, for: .normal)
+            storyIndex = 2
+        }
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
-    @IBAction func answerPressed(_ sender: AnyObject) {
-        if sender.tag == 1 {
-            pickedAnswer = true
-        }
-        else if sender.tag == 2{
-            pickedAnswer = false
-        }
-        
-        checkAnswer()
-        
-        questionNumber += 1 //questionNumber = questionNumber + 1
-        
-        nextQuestion()
-        
-    }
-    
-    
-    func updateUI() {
-      
-        scoreLabel.text = "Score: \(score)"
-        progressLabel.text = "\(questionNumber + 1)/13"
-        progressBar.frame.size.width = (view.frame.size.width/13) * CGFloat(questionNumber + 1)
-    }
-    
 
-    func nextQuestion() {
-        
-        if questionNumber <= 12 {
-            questionLabel.text = allQuestions.list[questionNumber].questionText
-            updateUI()
-        }
-        else {
-            let alert = UIAlertController(title: "Awesome", message: "You've finished all the questions, do you want to start over?", preferredStyle: .alert)
-            
-            let restartAction = UIAlertAction(title: "Restart", style: .default, handler: { (UIAlertAction) in
-                self.startOver()
-            })
-            
-            alert.addAction(restartAction)
-            
-            present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    
-    func checkAnswer() {
-        
-        let correctAnswer = allQuestions.list[questionNumber].answer
-        
-        if correctAnswer == pickedAnswer {
-            
-            ProgressHUD.showSuccess("Correct")//third-party library
-            
-            score += 1 //score = score + 1
-        }
-        else {
-            ProgressHUD.showError("Wrong!")//third-party library
-        }
-        
-    }
-    
-    
-    func startOver() {
-        
-        questionNumber = 0
-        score = 0
-        nextQuestion()
-       
-    }
-    
-
-    
 }
+
