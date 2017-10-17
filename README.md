@@ -1,6 +1,5 @@
 # swift-code
 Start learning Swift code on 08-29-2017                                                                                                   
-iOS 11 & Swift 4 - The Complete iOS App Development Bootcamp
 
 Apps made so far:                                                                       
 09-15-2017  Dicee                                                                       
